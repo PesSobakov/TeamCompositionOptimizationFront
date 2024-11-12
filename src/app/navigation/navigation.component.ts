@@ -19,7 +19,7 @@ export class NavigationComponent
     private api: ApiService,
     private route: ActivatedRoute,
     private router: Router,
-    @Inject(LOCALE_ID) private locale: string
+    @Inject(LOCALE_ID) public locale: string
   )
   {
     router.events.pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))

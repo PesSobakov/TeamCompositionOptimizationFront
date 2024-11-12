@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, LOCALE_ID, NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { OptimizationComponent } from './optimization/optimization.component';
 import { HelpComponent } from './help/help.component';
@@ -8,39 +8,30 @@ import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
   {
-    path: 'optimization',
+    path: $localize`:@@locale:en`+'/'+'optimization',
     component: OptimizationComponent
   },
   {
-    path: 'help',
+    path: $localize`:@@locale:en` + '/' + 'help',
     component: HelpComponent
   },
   {
-    path: 'help/:id',
+    path: $localize`:@@locale:en` + '/' + 'help/:id',
     component: HelpComponent
   },
   {
-    path: 'home',
+    path: $localize`:@@locale:en` + '/' + 'home',
     component: HomeComponent
   },
   {
-    path: 'login',
+    path: $localize`:@@locale:en` + '/' + 'login',
     component: LoginComponent
   },
   {
-    path: 'account',
+    path: $localize`:@@locale:en` + '/' + 'account',
     component: AccountComponent
   },
-  /*{
-    path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  },
-  {
-    path: 'crisis-center',
-    loadChildren: () => import('./crisis-center/crisis-center.module').then(m => m.CrisisCenterModule),
-    data: { preload: true }
-  },*/
-  { path: '', redirectTo: '/optimization', pathMatch: 'full' }/*,
+  { path: '', redirectTo: $localize`:@@locale:en` + '/' + '/home', pathMatch: 'full' }/*,
   { path: '**', component: PageNotFoundComponent }*/
 ];
 
