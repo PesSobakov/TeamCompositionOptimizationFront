@@ -37,7 +37,7 @@ import { GeneralizedCompetence } from './optimization/generalizedCompetence';
 @Injectable()
 export class ApiService
 {
-  readonly endpoint: string = `https://${environment.server}:${environment.port}/`;
+  readonly endpoint: string = `https://${environment.server}/`;
 
   constructor(private http: HttpClient) { }
 
