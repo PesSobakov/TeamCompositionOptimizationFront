@@ -20,14 +20,14 @@
       "sourceRoot": "src",
       "prefix": "app",
       "i18n": {
-        "sourceLocale": "en",
+        "sourceLocale": {
+          "baseHref": "/ua/",
+          "code": "en"
+        },
         "locales": {
           "ua": {
             "translation": "src/locale/messages.ua.json",
             "baseHref": "/ua/"
-          },
-          "en": {
-            "baseHref": "/en/"
           }
         }
       },
@@ -95,7 +95,7 @@
               "localize": [ "en" ]
             },
             "ua": {
-              "localize": ["ua"]
+              "localize": [ "ua" ]
             }
           },
           "defaultConfiguration": "production"
