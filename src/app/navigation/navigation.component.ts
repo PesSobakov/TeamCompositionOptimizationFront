@@ -68,7 +68,7 @@ export class NavigationComponent
 
   getChangeLanguageLink()
   {
-    return "/" + (this.isEn() ? "ua" : "en") + this.url
+    return "../../" + (this.isEn() ? "ua" : "en") + this.url
   }
 
   ngOnInit()

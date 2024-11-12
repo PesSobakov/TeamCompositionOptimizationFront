@@ -8,30 +8,30 @@ import { AccountComponent } from './account/account.component';
 
 const routes: Routes = [
   {
-    path: $localize`:@@locale:en`+'/'+'optimization',
+    path: 'optimization',
     component: OptimizationComponent
   },
   {
-    path: $localize`:@@locale:en` + '/' + 'help',
+    path: 'help',
     component: HelpComponent
   },
   {
-    path: $localize`:@@locale:en` + '/' + 'help/:id',
+    path: 'help/:id',
     component: HelpComponent
   },
   {
-    path: $localize`:@@locale:en` + '/' + 'home',
+    path: 'home',
     component: HomeComponent
   },
   {
-    path: $localize`:@@locale:en` + '/' + 'login',
+    path: 'login',
     component: LoginComponent
   },
   {
-    path: $localize`:@@locale:en` + '/' + 'account',
+    path: 'account',
     component: AccountComponent
   },
-  { path: '', redirectTo: $localize`:@@locale:en` + '/' + '/home', pathMatch: 'full' }/*,
+  { path: '', redirectTo: '/home', pathMatch: 'full' }/*,
   { path: '**', component: PageNotFoundComponent }*/
 ];
 

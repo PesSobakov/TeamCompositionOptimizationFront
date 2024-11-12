@@ -57,7 +57,8 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/en/"
           },
           "configurations": {
             "production": {
@@ -105,7 +106,7 @@
               "buildTarget": "TeamCompositionOptimizationFront:build:production"
             },
             "development": {
-              "buildTarget": "TeamCompositionOptimizationFront:build:development"
+              "buildTarget": "TeamCompositionOptimizationFront:build:development,en"
             },
             "en": {
               "buildTarget": "TeamCompositionOptimizationFront:build:development,en"
