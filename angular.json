@@ -25,6 +25,9 @@
           "ua": {
             "translation": "src/locale/messages.ua.json",
             "baseHref": "/ua/"
+          },
+          "en": {
+            "baseHref": "/en/"
           }
         }
       },
@@ -57,8 +60,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
-            "baseHref": "/en/"
+            "scripts": []
           },
           "configurations": {
             "production": {
