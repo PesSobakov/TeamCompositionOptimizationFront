@@ -1,4 +1,4 @@
-import { LOCALE_ID, LOCALE_ID, NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { OptimizationComponent } from './optimization/optimization.component';
 import { HelpComponent } from './help/help.component';
