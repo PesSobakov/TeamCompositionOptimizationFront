@@ -32,6 +32,11 @@
                 </mat-form-field>
             </div>
         </div>
+        <ng-container *ngIf="error">
+            <div class="red">
+                {{error}}
+            </div>
+        </ng-container>
         <div>
             <button i18n="@@Login_button" mat-flat-button (click)="login()">Login</button>
         </div>

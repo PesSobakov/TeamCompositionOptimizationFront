@@ -500,14 +500,22 @@ export class OptimizationComponent
     });
   }
 
-
   updateCandidates()
   {
     this.candidates$?.subscribe({
       next: (res) =>
       {
         this.candidates = res;
-        this.checkedCandidates = res.map((item) => { return <CandidateChecked>{ id: item.id, isChecked: false } });
+
+        let newCheckedCandidates = res.map((item) => { return <CandidateChecked>{ id: item.id, isChecked: false } });
+        for (var i = 0; i < newCheckedCandidates.length; i++) {
+          let checkedCandidate = this.checkedCandidates.find((x) => { return newCheckedCandidates[i].id == x.id });
+          if (checkedCandidate) {
+            newCheckedCandidates[i] = checkedCandidate;
+          }
+        }
+        this.checkedCandidates = newCheckedCandidates;
+
         this.fixMissingCompetencies();
       },
       error: (error: HttpErrorResponse) =>
@@ -525,7 +533,16 @@ export class OptimizationComponent
       {
         this.competencies = res;
         this.indicators = res.map((item) => { return <Indicator>{ competencyId: item.id, value: 1, deviation: 0, weight: 1 } });
-        this.checkedIndicators = res.map((item) => { return <IndicatorChecked>{ id: item.id, isChecked: false } });
+
+        let newCheckedIndicators = res.map((item) => { return <IndicatorChecked>{ id: item.id, isChecked: false } });
+        for (var i = 0; i < newCheckedIndicators.length; i++) {
+          let checkedIndicator = this.checkedIndicators.find((x) => { return newCheckedIndicators[i].id == x.id });
+          if (checkedIndicator) {
+            newCheckedIndicators[i] = checkedIndicator;
+          }
+        }
+        this.checkedIndicators = newCheckedIndicators;
+
         this.indicatorsValid = res.map((item) => { return <IndicatorValid>{ id: item.id } });
         this.fixMissingCompetencies();
       },
