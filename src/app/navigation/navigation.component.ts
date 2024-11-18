@@ -5,7 +5,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { AccountInfo } from '../login/accountInfo';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -26,7 +26,15 @@ export class NavigationComponent
       .subscribe({
         next: (e: NavigationEnd) =>
         {
-         this.url= e.url;
+          this.url = e.url;
+          this.updateAccountInfo();
+        }
+      });
+    router.events.pipe(filter((e): e is NavigationStart => e instanceof NavigationStart))
+      .subscribe({
+        next: (e: NavigationStart) =>
+        {
+          this.url = e.url;
           this.updateAccountInfo();
         }
       })
@@ -38,12 +46,12 @@ export class NavigationComponent
     .pipe(
       map(result => result.matches),
       shareReplay()
-  );
+    );
 
   accountInfo?: AccountInfo;
-  url: string="";
+  url: string = "";
 
-  checkNav(nav:string)
+  checkNav(nav: string)
   {
     return this.url.includes(nav);
   }
@@ -55,9 +63,15 @@ export class NavigationComponent
 
   updateAccountInfo()
   {
-    this.api.accountInfo().subscribe((res) =>
-    {
-      this.accountInfo = res;
+    this.api.accountInfo().subscribe({
+      next: (res) =>
+      {
+        this.accountInfo = res;
+      },
+      error: () =>
+      {
+        this.accountInfo = undefined;
+      }
     });
   }
 
