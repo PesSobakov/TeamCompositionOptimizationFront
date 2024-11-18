@@ -1,4 +1,4 @@
-import { Component,Input,OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HelpPage } from './helpPage';
 import { ApiService } from '../api.service';
 import { Observable, switchMap } from 'rxjs';
@@ -17,17 +17,22 @@ export class HelpComponent
     private api: ApiService,
     private route: ActivatedRoute,
     private router: Router
- ) {}
+  ) { }
 
-  @Input('id') id? :number ;
+  @Input('id') id?: number;
 
   pageNames$: Observable<HelpPage[]> = this.api.getHelpNames();
-  page?: Observable<HelpPage>;
+  page?: HelpPage;
 
   isEditing: boolean = false;
   pageEdit: HelpPage = <HelpPage>{};
 
   accountInfo?: AccountInfo;
+
+  isCorrectLocale(helpPage: HelpPage)
+  {
+    return helpPage.locale == $localize`:@@locale:en`;
+  }
 
   updateAccountInfo()
   {
@@ -45,16 +50,16 @@ export class HelpComponent
   createPage()
   {
     this.isEditing = true;
-    this.pageEdit = <HelpPage>{ id:undefined, name : "", text : "" };
+    this.pageEdit = <HelpPage>{ id: undefined, name: "", text: "", locale:"en" };
   }
-  startEdit(page :HelpPage)
+  startEdit(page: HelpPage)
   {
     this.isEditing = true;
     this.pageEdit = page;
   }
   confirmEdit(page: HelpPage)
   {
-    if (page.id != undefined){
+    if (page.id != undefined) {
       this.api.patchHelp(page.id, page).subscribe({
         error: () => { console.log('err') },
         complete: () => { this.isEditing = false; this.updatePageNames(); }
@@ -93,7 +98,7 @@ export class HelpComponent
     this.isEditing = false;
 
     if (this.id != undefined) {
-      this.page = this.api.getHelp(this.id);
+      this.api.getHelp(this.id).subscribe((res) => { this.page = res });
     }
     else {
       this.page = undefined;
