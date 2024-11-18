@@ -1,5 +1,5 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { ExtraOptions, RouterModule, Routes } from '@angular/router';
+import { ExtraOptions, RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { OptimizationComponent } from './optimization/optimization.component';
 import { HelpComponent } from './help/help.component';
 import { HomeComponent } from './home/home.component';
@@ -36,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, <ExtraOptions>{ bindToComponentInputs :true} )],
+  imports: [RouterModule.forRoot(routes, <ExtraOptions>{ bindToComponentInputs: true, onSameUrlNavigation: 'reload' } )],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

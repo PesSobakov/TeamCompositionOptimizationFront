@@ -3,6 +3,7 @@ import { Credentials } from './credentials';
 import { ApiService } from '../api.service';
 import { AccountInfo } from './accountInfo';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,12 @@ export class LoginComponent
 {
   constructor(
     private api: ApiService,
-  ) { }
+    private route: ActivatedRoute,
+    private router: Router,
+  )
+  {
+    this.router.routeReuseStrategy.shouldReuseRoute = ()=>false;
+}
   credentials: Credentials = <Credentials>{};
   accountInfo?: AccountInfo;
   error?: string;
@@ -31,6 +37,7 @@ export class LoginComponent
       },
       next: () =>
       {
+        this.router.navigate(["/login"]);
         this.updateAccountInfo();
         this.error = undefined;
       }
@@ -50,6 +57,7 @@ export class LoginComponent
       },
       next: () =>
       {
+        this.router.navigate(["/login"]);
         this.updateAccountInfo();
         this.error = undefined;
       }
@@ -71,6 +79,7 @@ export class LoginComponent
       },
       complete: () =>
       {
+        this.router.navigate(["/login"]);
         this.updateAccountInfo();
         this.error = undefined;
       }
@@ -90,6 +99,7 @@ export class LoginComponent
       },
       complete: () =>
       {
+        this.router.navigate(["/login"]);
         this.updateAccountInfo();
         this.error = undefined;
       }

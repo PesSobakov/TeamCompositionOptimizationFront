@@ -337,13 +337,52 @@
         </mat-expansion-panel>
     </div>
 
-    <ng-container *ngIf="selectedIds">
+    <ng-container *ngIf="selectionResult">
         <div class="p10">
             <mat-expansion-panel hideToggle>
                 <mat-expansion-panel-header>
                     <mat-panel-title i18n> Ranked candidates </mat-panel-title>
                 </mat-expansion-panel-header>
-                <div>
+                <div class="p10">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th i18n>
+                                    Competency
+                                </th>
+                                <th i18n>
+                                    Value
+                                </th>
+                                <th i18n>
+                                    Deviation
+                                </th>
+                                <th i18n>
+                                    Weight
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let indicator of selectionResult.indicators">
+                                <tr>
+                                    <td>
+                                        {{indicator.competency.name}}
+                                    </td>
+                                    <td>
+                                        {{roundNumber(indicator.value)}}
+                                    </td>
+                                    <td>
+                                        {{roundNumber(indicator.deviation)}}
+                                    </td>
+                                    <td>
+                                        {{roundNumber(indicator.weight)}}
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p10">
                     <table>
                         <thead>
                             <tr>
@@ -359,14 +398,14 @@
                                 <th i18n rowspan="2">
                                     Working time
                                 </th>
-                                <ng-container *ngFor="let competency of competencies">
+                                <ng-container *ngFor="let indicator of selectionResult.indicators">
                                     <th colspan="2">
-                                        {{competency.name}}
+                                        {{indicator.competency.name}}
                                     </th>
                                 </ng-container>
                             </tr>
                             <tr>
-                                <ng-container *ngFor="let competency of competencies">
+                                <ng-container *ngFor="let indicator of selectionResult.indicators">
                                     <th i18n class="vertical-text">
                                         Value
                                     </th>
@@ -378,26 +417,26 @@
                         </thead>
                         <tbody>
                             <!---->
-                            <ng-container *ngFor="let selectedId of selectedIds">
+                            <ng-container *ngFor="let competence of selectionResult.generalizedCompetences">
                                 <tr>
                                     <td>
-                                        {{roundNumber(selectedId.competence)}}
+                                        {{roundNumber(competence.competence)}}
                                     </td>
                                     <td>
-                                        {{getCandidateById(selectedId.id)?.name}}
+                                        {{getSelectionCandidateById(competence.id)?.name}}
                                     </td>
                                     <td>
-                                        {{roundNumber(getCandidateById(selectedId.id)?.salary)}}
+                                        {{roundNumber(getSelectionCandidateById(competence.id)?.salary)}}
                                     </td>
                                     <td>
-                                        {{(getCandidateById(selectedId.id)?.workingTime)}}
+                                        {{(getSelectionCandidateById(competence.id)?.workingTime)}}
                                     </td>
-                                    <ng-container *ngFor="let competency of competencies">
+                                    <ng-container *ngFor="let indicator of selectionResult.indicators">
                                         <td>
-                                            {{roundNumber(getCompetency(getCandidateById(selectedId.id),competency)?.value??0)}}
+                                            {{roundNumber(getCompetency(getSelectionCandidateById(competence.id),indicator.competency)?.value??0)}}
                                         </td>
                                         <td>
-                                            {{roundNumber(getCompetency(getCandidateById(selectedId.id),competency)?.deviationRight??0)}}
+                                            {{roundNumber(getCompetency(getSelectionCandidateById(competence.id),indicator.competency)?.deviationRight??0)}}
                                         </td>
                                     </ng-container>
                                 </tr>

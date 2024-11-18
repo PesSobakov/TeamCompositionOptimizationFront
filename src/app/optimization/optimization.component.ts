@@ -14,6 +14,7 @@ import { GeneralizedCompetence } from './generalizedCompetence';
 import domToImage from 'dom-to-image';
 import { jsPDF, jsPDFOptions } from 'jspdf';
 import { TeamOption } from './teamOption';
+import { selectResult } from './selectResult';
 
 @Component({
   selector: 'app-optimization',
@@ -54,13 +55,19 @@ export class OptimizationComponent
   isCreatingCompetency: boolean = false;
 
   threshold: number = 1;
-  budget: number = 100;
-  laboriousness: number = 100;
-  time: number = 100;
+  budget: number = 10000;
+  laboriousness: number = 10;
+  time: number = 1;
 
   optimizationError?: string;
 
-  selectedIds?: GeneralizedCompetence[];
+  selectionResult?: selectResult;
+
+  getSelectionCandidateById(id: number)
+  {
+    return this.selectionResult?.candidates.find((x) => { return x.id == id; });
+  }
+
   selectedCandidates?: Candidate[] = [];
 
   roundNumber(number: number | undefined)
@@ -289,7 +296,7 @@ export class OptimizationComponent
       },
       next: (res) =>
       {
-        this.selectedIds = res;
+        this.selectionResult = res;
       }
     });
   }
@@ -320,7 +327,7 @@ export class OptimizationComponent
           orientation: orientation,
           unit: 'px',
           format: [width, height],
-          compress:true
+          compress: true
         };
         const pdf = new jsPDF(jsPdfOptions);
         pdf.addImage(result, 'PNG', 0, 0, width, height);
@@ -450,8 +457,8 @@ export class OptimizationComponent
   }
   createCandidate()
   {
-    this.candidateCreate = <Candidate>{};
-    this.candidateCreate.competencies = this.competencies.map((item) => { return <CandidateCompetency>{ competencyId: item.id } })
+    this.candidateCreate = <Candidate>{ salary: 10, workingTime: 40 };
+    this.candidateCreate.competencies = this.competencies.map((item) => { return <CandidateCompetency>{ competencyId: item.id, value: 0, deviationLeft: 0, deviationRight: 0 } })
     this.isCreatingCandidate = true;
     this.candidateCreateValid = this.candidateCreate.competencies.map((x) => { return <CandidateCompetencyValid>{ id: x.competencyId } });
   }
@@ -505,9 +512,9 @@ export class OptimizationComponent
     this.candidates$?.subscribe({
       next: (res) =>
       {
-        this.candidates = res;
+        this.candidates = res ?? [];
 
-        let newCheckedCandidates = res.map((item) => { return <CandidateChecked>{ id: item.id, isChecked: false } });
+        let newCheckedCandidates = this.candidates.map((item) => { return <CandidateChecked>{ id: item.id, isChecked: false } });
         for (var i = 0; i < newCheckedCandidates.length; i++) {
           let checkedCandidate = this.checkedCandidates.find((x) => { return newCheckedCandidates[i].id == x.id });
           if (checkedCandidate) {
@@ -531,10 +538,10 @@ export class OptimizationComponent
     this.competencies$?.subscribe({
       next: (res) =>
       {
-        this.competencies = res;
-        this.indicators = res.map((item) => { return <Indicator>{ competencyId: item.id, value: 1, deviation: 0, weight: 1 } });
+        this.competencies = res ?? [];
+        this.indicators = this.competencies.map((item) => { return <Indicator>{ competencyId: item.id, value: 1, deviation: 0, weight: 1 } });
 
-        let newCheckedIndicators = res.map((item) => { return <IndicatorChecked>{ id: item.id, isChecked: false } });
+        let newCheckedIndicators = this.competencies.map((item) => { return <IndicatorChecked>{ id: item.id, isChecked: false } });
         for (var i = 0; i < newCheckedIndicators.length; i++) {
           let checkedIndicator = this.checkedIndicators.find((x) => { return newCheckedIndicators[i].id == x.id });
           if (checkedIndicator) {
@@ -543,7 +550,9 @@ export class OptimizationComponent
         }
         this.checkedIndicators = newCheckedIndicators;
 
-        this.indicatorsValid = res.map((item) => { return <IndicatorValid>{ id: item.id } });
+        this.indicatorsValid = this.competencies.map((item) => { return <IndicatorValid>{ id: item.id } });
+
+
         this.fixMissingCompetencies();
       },
       error: (error: HttpErrorResponse) =>
@@ -559,7 +568,7 @@ export class OptimizationComponent
     this.results$?.subscribe({
       next: (res) =>
       {
-        this.results = res;
+        this.results = res ?? [];
         if (this.results.length > 0) {
           this.currentResult = this.results[0];
         }

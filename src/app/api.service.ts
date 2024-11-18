@@ -27,6 +27,7 @@ import { Credentials } from './login/credentials';
 import { Subscription } from './login/subscription';
 import { SelectDto } from './optimization/selectDto';
 import { GeneralizedCompetence } from './optimization/generalizedCompetence';
+import { selectResult } from './optimization/selectResult';
 
 
 
@@ -95,35 +96,42 @@ export class ApiService
 
   getHelpNames(): Observable<HelpPage[]>
   {
-    let url = `${this.endpoint}api/help`;
+    let url = `${this.endpoint}api/help/get`;
+    return this.http
+      .get<HelpPage[]>(url, { withCredentials: true });
+  }
+
+  getLocalizedHelpNames(locale:string): Observable<HelpPage[]>
+  {
+    let url = `${this.endpoint}api/help/getlocalized/${locale}`;
     return this.http
       .get<HelpPage[]>(url, { withCredentials: true });
   }
 
   getHelp(id: number): Observable<HelpPage> 
   {
-    let url = `${this.endpoint}api/help/${id}`;
+    let url = `${this.endpoint}api/help/get/${id}`;
     return this.http
       .get<HelpPage>(url, { withCredentials: true });
   }
 
   postHelp(helpPage: HelpPage)
   {
-    let url = `${this.endpoint}api/help`;
+    let url = `${this.endpoint}api/help/post`;
     return this.http
       .post(url, helpPage, { withCredentials: true });
   }
 
   patchHelp(id: number, helpPage: HelpPage)
   {
-    let url = `${this.endpoint}api/help/${id}`;
+    let url = `${this.endpoint}api/help/patch/${id}`;
     return this.http
       .patch(url, helpPage, { withCredentials: true });
   }
 
   deleteHelp(id: number)
   {
-    let url = `${this.endpoint}api/help/${id}`;
+    let url = `${this.endpoint}api/help/delete/${id}`;
     return this.http
       .delete(url, { withCredentials: true });
   }
@@ -210,7 +218,7 @@ export class ApiService
   {
     let url = `${this.endpoint}api/optimization/select`;
     return this.http
-      .post<GeneralizedCompetence[]>(url, selectDto, { withCredentials: true });
+      .post<selectResult>(url, selectDto, { withCredentials: true });
   }
 
   getResult()
